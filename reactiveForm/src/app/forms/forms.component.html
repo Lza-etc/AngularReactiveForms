@@ -1,0 +1,141 @@
+<ng-container *ngIf="!valid">
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="form" >
+    <div class="form__field">
+      <div class="form__row">
+        <label for="firstName">First Name:</label>
+        <input type="text" formControlName="firstName" aria-label="firstName">
+      </div>
+      <div class="text-danger">
+        <ng-container *ngIf=" (userForm.controls['firstName'].touched || submitted ) && userForm.controls['firstName'].errors?.['required']">First Name is required</ng-container>
+        <ng-container *ngIf="userForm.controls['firstName'].errors?.['maxlength']">Maximum Length: 20 characters</ng-container>
+      </div>
+    </div>
+    <div class="form__field">
+      <div class="form__row">
+        <label for="lastName">Last Name:</label>
+        <input type="text" formControlName="lastName" aria-label="lastName">
+      </div>
+      <div class="text-danger">
+        <ng-container *ngIf=" (userForm.controls['lastName'].touched || submitted ) && userForm.controls['lastName'].errors?.['required']">Last Name is required</ng-container>
+        <ng-container *ngIf=" userForm.controls['lastName'].errors?.['maxlength']">Maximum Length: 20 characters</ng-container>
+      </div>
+    </div>
+    <div class="form__field">
+      <div class="form__row">
+        <label for="middleName">Middle Name:</label>
+        <input type="text" formControlName="middleName" aria-label="middleName">
+      </div>
+      <div class="text-danger">
+        <ng-container *ngIf="userForm.controls['middleName'].errors?.['maxlength']">Maximum Length: 20 characters</ng-container>
+      </div>
+    </div>
+    <div class="form__field">
+      <div class="form__row">
+        <label for="age">Age:</label>
+        <input type="text" formControlName="age" aria-label="age">
+      </div>
+      <div class="text-danger">
+        <ng-container *ngIf=" (userForm.controls['age'].touched || submitted ) && userForm.controls['age'].errors?.['required']">Age is required</ng-container>
+        <ng-container *ngIf=" userForm.controls['age'].errors?.['notANumber']; else ageValid">Not a number</ng-container>
+        <ng-template #ageValid>
+          <ng-container *ngIf=" userForm.controls['age'].errors?.['pattern']">Age should be between 10 and 50</ng-container>
+        </ng-template>
+      </div>
+    </div>
+    <div class="form__field">
+      <div class="form__gender">
+        <label class="gender-label">Gender:</label>
+        <div>
+          <label><input type="radio" formControlName="gender" value="male"> Male</label>
+          <label><input type="radio" formControlName="gender" value="female"> Female</label>
+        </div>
+      </div>
+      <div class="text-danger"
+          *ngIf=" submitted && userForm.controls['gender'].errors?.['required']" >
+          Gender is required
+      </div>
+    </div>
+
+    <div formGroupName="address" class="address">
+      <label class="address__label">Address:</label>
+      <div class="form__field">
+        <div class="address__row">
+          <label for="street">Street:</label>
+          <input type="text" formControlName="street" aria-label="street">
+        </div>
+        <div class="text-danger">
+          <ng-container *ngIf="( userForm.get('address.street')?.touched || submitted ) && userForm.get('address.street')?.errors?.['required']">Street is required</ng-container>
+          <ng-container *ngIf="userForm.get('address.street')?.errors?.['maxlength']">Maximum Length: 20 characters</ng-container>
+        </div>
+      </div>
+      <div class="form__field">   
+        <div class="address__row">
+          <label for="landmark">Landmark:</label>
+          <input type="text" formControlName="landmark"aria-label="landmark">
+        </div>
+        <div class="text-danger">
+          <ng-container *ngIf="userForm.get('address.landmark')?.errors?.['maxlength']">Maximum Length: 20 characters</ng-container>
+        </div>
+      </div>
+      <div class="form__field">  
+        <div class="address__row">
+          <label for="city">City:</label>
+          <input type="text" formControlName="city" aria-label="city">
+        </div>
+        <div class="text-danger">
+          <ng-container *ngIf="( userForm.get('address.city')?.touched || submitted ) && userForm.get('address.city')?.errors?.['required']">City is required</ng-container>
+          <ng-container *ngIf="userForm.get('address.city')?.errors?.['maxlength']">Maximum Length: 20 characters</ng-container>
+        </div>
+      </div>
+      <div class="form__field">
+        <div class="address__row">
+          <label for="state">State:</label>
+          <input type="text" formControlName="state" aria-label="state">
+        </div>
+        <div class="text-danger">
+          <ng-container *ngIf=" (userForm.get('address.state')?.touched || submitted ) && userForm.get('address.state')?.errors?.['required']">State is required</ng-container>
+          <ng-container *ngIf="userForm.get('address.state')?.errors?.['maxlength']">Maximum Length: 20 characters</ng-container>
+        </div>
+      </div>
+      <div class="form__field">  
+        <div class="address__row">
+          <label for="zipCode">Zip Code:</label>
+          <input type="text" formControlName="zipCode" aria-label="zipcode">
+        </div>
+        <div class="text-danger">
+          <ng-container *ngIf=" (userForm.get('address.zipCode')?.touched || submitted ) && userForm.get('address.zipCode')?.errors?.['required']">ZipCode is required</ng-container>
+          <ng-container *ngIf=" userForm.get('address.zipCode')?.errors?.['notANumber']; else zipValid">Not a number</ng-container>
+          <ng-template #zipValid>
+            <ng-container *ngIf="userForm.get('address.zipCode')?.errors?.['maxlength']">Maximum Length: 20 characters</ng-container>
+          </ng-template>
+        </div>
+      </div>
+      <div class="form__field">  
+        <div class="address__row">
+          <label for="country">Country:</label>
+          <input type="text" formControlName="country" aria-label="country">
+        </div>
+        <div class="text-danger">
+          <ng-container *ngIf=" (userForm.get('address.country')?.touched || submitted ) && userForm.get('address.country')?.errors?.['required']">Country is required</ng-container>  
+          <ng-container *ngIf="userForm.get('address.country')?.errors?.['maxlength']">Maximum Length: 20 characters</ng-container>
+        </div>
+      </div>
+    </div>
+    <div formArrayName="hobbies" class="hobbies">
+      <label class="hobbies__label">Hobbies:</label>
+      <div *ngFor="let hobby of hobbies.controls; let i = index;" class="hobbies__row">
+        <input type="text" [formControlName]="i" aria-label="remove-hobby">
+        <button type="button" (click)="removeHobby(i)" aria-label="Remove Hobby">Remove</button>
+      </div>
+      <button type="button" (click)="addHobby()" class="hobbies__add">Add Hobby</button>
+    </div>
+     <p class="text">Complete the form to enable button.</p>
+    <button type="submit" [disabled]="!userForm.valid" class="form__submit">Submit</button>
+  </form>
+</ng-container>
+<ng-container *ngIf="valid">
+  <p class="text">Successfully Completed the form</p>
+</ng-container>
+
+
+  

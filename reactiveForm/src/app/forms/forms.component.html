@@ -195,7 +195,7 @@
     <div formArrayName="hobbies" class="hobbies">
       <label class="hobbies__label">Hobbies:</label>
       <div
-        *ngFor="let hobby of hobbies.controls; let i = index"
+        *ngFor="let _ of hobbies.controls; let i = index"
         class="hobbies__row"
       >
         <input type="text" [formControlName]="i" aria-label="remove-hobby" />

@@ -1,36 +1,54 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-forms',
   templateUrl: './forms.component.html',
-  styleUrl: './forms.component.scss'
+  styleUrl: './forms.component.scss',
 })
 export class FormsComponent {
   userForm!: FormGroup;
-  submitted: boolean=false;
-  valid:boolean=false;
+  submitted: boolean = false;
+  valid: boolean = false;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     this.userForm = this.formBuilder.group({
       firstName: ['', [Validators.required, Validators.maxLength(20)]],
       lastName: ['', [Validators.required, Validators.maxLength(20)]],
       middleName: ['', Validators.maxLength(20)],
-      age: ['', [Validators.required, Validators.pattern('^(?:1[0-9]|[2-4][0-9]|50)$'),this.isNumberValidator]],
+      age: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('^(?:1[0-9]|[2-4][0-9]|50)$'),
+          this.isNumberValidator,
+        ],
+      ],
       gender: ['', Validators.required],
       address: this.formBuilder.group({
         street: ['', [Validators.required, Validators.maxLength(20)]],
         landmark: ['', Validators.maxLength(20)],
         city: ['', [Validators.required, Validators.maxLength(20)]],
         state: ['', [Validators.required, Validators.maxLength(20)]],
-        zipCode: ['', [Validators.required,this.isNumberValidator, Validators.maxLength(20)]],
-        country: ['', [Validators.required, Validators.maxLength(20)]]
+        zipCode: [
+          '',
+          [
+            Validators.required,
+            this.isNumberValidator,
+            Validators.maxLength(20),
+          ],
+        ],
+        country: ['', [Validators.required, Validators.maxLength(20)]],
       }),
-      hobbies: this.formBuilder.array([
-        this.formBuilder.control('')
-      ])
+      hobbies: this.formBuilder.array([this.formBuilder.control('')]),
     });
   }
 
@@ -40,7 +58,7 @@ export class FormsComponent {
   isNumberValidator(control: AbstractControl): { [key: string]: any } | null {
     const age = control.value;
     if (isNaN(age)) {
-      return { 'notANumber': true };
+      return { notANumber: true };
     }
     return null;
   }
@@ -54,13 +72,13 @@ export class FormsComponent {
   }
 
   onSubmit() {
-    this.submitted=true;
+    this.submitted = true;
     if (this.userForm.valid) {
       console.log(this.userForm.value);
-      this.valid=true;
+      this.valid = true;
     } else {
-      this.valid=false;
-      console.log("Form is invalid");
+      this.valid = false;
+      console.log('Form is invalid');
     }
   }
 }
